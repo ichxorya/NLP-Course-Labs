@@ -1,3 +1,9 @@
+# CMD Scripts
+*.cmd
+
+# W4 - aclImdb (extracted)
+aclImdb/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
