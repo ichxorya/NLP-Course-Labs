@@ -1,25 +1,25 @@
 #! Import libraries.
-import os  # for os related operations
-import pandas as pd  # for data manipulation and analysis
-import nltk  # for text manipulation
-import string  # for string manipulation
-import re  # for regular expression
-import random  # for generating random numbers
-import time  # for time related operations
+import os  
+import pandas as pd 
+import nltk 
+import string  
+import re 
+import random 
+import time  
 
-# Download nltk packages.
-nltk.download("punkt")  # for tokenization
-nltk.download("stopwords")  # for removing stopwords
-nltk.download("wordnet")  # for lemmatization
+# Download nltk packages for tokenization, stopwords and lemmatization.
+nltk.download("punkt")  
+nltk.download("stopwords") 
+nltk.download("wordnet") 
 
 # Import tokenizer, stopwords and lemmatizer.
-from nltk.tokenize import word_tokenize  # for tokenization
+from nltk.tokenize import word_tokenize
 
-from nltk.corpus import stopwords  # for removing stopwords
+from nltk.corpus import stopwords 
 
 stop_words = stopwords.words("english")
 
-from nltk.stem import WordNetLemmatizer  # for lemmatization
+from nltk.stem import WordNetLemmatizer
 
 lemmatizer = WordNetLemmatizer()
 
@@ -91,11 +91,11 @@ def clean_text(text: str) -> str:
     Return type:
         str: cleaned string.
     """
-    text = remove_html_tags(text)  # remove HTML tags
-    text = text.lower()  # convert to lowercase
-    text = remove_punctuation(text)  # remove punctuation
-    text = remove_stopwords(text)  # remove stopwords
-    text = lemmatize(text)  # lemmatize
+    text = remove_html_tags(text)
+    text = text.lower() 
+    text = remove_punctuation(text)  
+    text = remove_stopwords(text)  
+    text = lemmatize(text) 
     return text
 
 
@@ -142,7 +142,7 @@ def compare_review_before_after_cleaning(
     )
     review_kind = dirty_data["sentiment"].iloc[
         random_index
-    ]  # get the review kind (pos/neg)
+    ]  # Get the review kind (pos/neg).
 
     # Adjust the reviews for better readability.
     ## Add newlines after each 70 characters.
@@ -184,7 +184,7 @@ def compare_review_before_after_cleaning(
             f.write("Clean review:\n")
             f.write("\t" + review_samples[1] + "\n\n")
 
-    # Print out a separator.
+    # Print a line to separate the output.
     print("-" * 100)
 
 
@@ -203,5 +203,5 @@ def save_cleaned_data(data: pd.DataFrame, is_train_data: bool) -> None:
 
     print(f"Saved the cleaned data to 'cleaned_aclImdb/csv/{csv_file_name}'")
 
-    # Print out a separator.
+    # Print a line to separate the output.
     print("-" * 100)

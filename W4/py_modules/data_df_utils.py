@@ -1,18 +1,18 @@
-#! Import libraries.
-import os  # for os related operations
-import pandas as pd  # for data manipulation and analysis
-import re  # for regular expression
-import matplotlib.pyplot as plt  # for plotting graphs
-import seaborn as sns  # for plotting graphs
-import time  # for time related operations
-
 """
 This file contains utility functions for loading, visualizing and analyzing data in a dataframe.
 """
 
+#! Import libraries.
+import os
+import pandas as pd 
+import re 
+import matplotlib.pyplot as plt
+import seaborn as sns  
+import time  
+
 
 #! Function: Load data into a dataframe.
-def load_data(dataset_path, dataset_type) -> pd.DataFrame:
+def load_data(dataset_path: str, dataset_type: str) -> pd.DataFrame:
     """
     Load data into a dataframe.
 
@@ -40,10 +40,11 @@ def load_data(dataset_path, dataset_type) -> pd.DataFrame:
 
     # Iterate over labels.
     for label in ["pos", "neg"]:
-        label_path = os.path.join(dataset_path, dataset_type, label)  # get label path
+        label_path = os.path.join(dataset_path, dataset_type, label)
         print(f"Loading data from {label_path}...")
+        
         for file in os.listdir(label_path):
-            file_path = os.path.join(label_path, file)  # get file path
+            file_path = os.path.join(label_path, file)
             with open(file_path, "r", encoding="utf-8") as f:
                 data.append([file, f.read(), label])
 
@@ -173,5 +174,5 @@ def analyze_data(data: pd.DataFrame, write_to_file: bool = False) -> None:
             f.write("Negative reviews:\n")
             f.write("\t" + reviews_samples[1])
 
-    # Print out a separator.
+    # Print a line to separate the output.
     print("-" * 100)
