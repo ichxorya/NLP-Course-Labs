@@ -119,12 +119,13 @@ def clean_data(data: pd.DataFrame) -> pd.DataFrame:
 
 #! Function: Compare a random review before and after cleaning.
 def compare_review_before_after_cleaning(
-    dirty_data: pd.DataFrame, clean_data: pd.DataFrame
+    dirty_data: pd.DataFrame, clean_data: pd.DataFrame, write_to_file: bool = False
 ) -> None:
     """
     Compare a random review before and after cleaning from two dataframes.
     The reviews are limited to 200 characters for better readability.
-    The full comparison is also written to a file called 'data_before_after_<time>.txt'.
+    The full comparison is also written to a file called
+    'data_before_after_<time>.txt' (optional).
 
     Args:
         dirty_data (pd.DataFrame): dataframe containing the dirty data.
@@ -171,19 +172,21 @@ def compare_review_before_after_cleaning(
     print()
 
     # Write the dirty and clean reviews to a file called 'data_before_after_<time>.txt'.
-    current_time = time.strftime("%Y%m%d-%H%M%S")
+    if write_to_file:
+        current_time = time.strftime("%Y%m%d-%H%M%S")
 
-    with open(f"data_before_after_{current_time}.txt", "w") as f:
-        f.write(
-            f"Comparing a random review ({review_kind}) before and after cleaning:\n\n"
-        )
-        f.write("Dirty review:\n")
-        f.write("\t" + review_samples[0] + "\n\n")
-        f.write("Clean review:\n")
-        f.write("\t" + review_samples[1] + "\n\n")
+        with open(f"data_before_after_{current_time}.txt", "w") as f:
+            f.write(
+                f"Comparing a random review ({review_kind}) before and after cleaning:\n\n"
+            )
+            f.write("Dirty review:\n")
+            f.write("\t" + review_samples[0] + "\n\n")
+            f.write("Clean review:\n")
+            f.write("\t" + review_samples[1] + "\n\n")
 
     # Print out a separator.
     print("-" * 100)
+
 
 #! Function: Save the cleaned data to a csv file and text files.
 def save_cleaned_data(data: pd.DataFrame, is_train_data: bool) -> None:
@@ -197,8 +200,8 @@ def save_cleaned_data(data: pd.DataFrame, is_train_data: bool) -> None:
 
     # Save the dataframe to a csv file.
     data.to_csv(f"cleaned_aclImdb/{csv_file_name}", index=False)
-    
+
     print(f"Saved the cleaned data to 'cleaned_aclImdb/csv/{csv_file_name}'")
-    
+
     # Print out a separator.
     print("-" * 100)

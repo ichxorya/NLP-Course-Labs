@@ -52,27 +52,43 @@ def load_data(dataset_path, dataset_type) -> pd.DataFrame:
 
 
 #! Function: Visualize data from a dataframe.
-def visualize_data(data: pd.DataFrame, title: str = "Example plot") -> None:
+def visualize_data(
+    data: pd.DataFrame, title: str = "Example plot", write_to_file: bool = False
+) -> None:
     """
+    Note: The write_to_file functionality is currently broken.
+
     Visualize data from a dataframe as a countplot.
+    Write the plot to a file called 'example_plot_<time>.png' (optional).
 
     Args:
         data (pd.DataFrame): dataframe containing the data.
         title (str): title of the plot.
     """
+    
     # Plot the data.
     plt.figure(figsize=(10, 5))
     sns.countplot(x="sentiment", data=data)
     plt.title(title)
+
+    # Save the plot to a file called 'example_plot_<time>.png'.
+    if write_to_file:
+        print("The write to file functionality is currently broken.")
+    #     current_time = time.strftime("%Y%m%d-%H%M%S")
+    #     plt.savefig(f"{title}_{current_time}.png")
+
+    # Display the plot (maybe after saving).
     plt.show()
 
 
+
 #! Function: Analyze data from a dataframe.
-def analyze_data(data: pd.DataFrame) -> None:
+def analyze_data(data: pd.DataFrame, write_to_file: bool = False) -> None:
     """
     Analyze and then print statistics of data from a dataframe.
     The reviews are limited to 200 characters for better readability.
-    The full data statistics are also written to a file called 'data_statistics_<time>.txt'.
+    The full data statistics are also written to a file called
+    'data_statistics_<time>.txt' (optional).
 
     Args:
         data (pd.DataFrame): dataframe containing the data.
@@ -91,7 +107,7 @@ def analyze_data(data: pd.DataFrame) -> None:
         Negative reviews:
             I hate this film very much!
 
-       (then write the statistics to a file called 'data_statistics.txt')
+       (then write the statistics to a file called 'data_statistics.txt' if needed)
     """
     # Get positive and negative reviews.
     positive_reviews = data[data["sentiment"] == "pos"]
@@ -110,7 +126,7 @@ def analyze_data(data: pd.DataFrame) -> None:
     ]
     ## Max width of each sample is 200 characters.
     reviews_samples_adjusted = [
-        review[:200] + "\n..." if len(review) > 200 else review
+        review[:200] + "\n... (tldr)" if len(review) > 200 else review
         for review in reviews_samples_adjusted
     ]
     ## Add a tab before each line.
@@ -139,22 +155,23 @@ def analyze_data(data: pd.DataFrame) -> None:
     print()
 
     # Write the statistics and reviews to a file called 'data_statistics_<time>.txt'.
-    current_time = time.strftime("%Y%m%d-%H%M%S")
-    with open(f"data_statistics_{current_time}.txt", "w", encoding="utf-8") as f:
-        f.write(
-            f"""Data statistics:
-            Number of reviews: {data.shape[0]}
-            Number of positive reviews: {positive_reviews.shape[0]}
-            Number of negative reviews: {negative_reviews.shape[0]}
-            Positive/Negative ratio: {positive_reviews.shape[0] / negative_reviews.shape[0]}
-            """
-        )
-        f.write("\n\n")
-        f.write("Positive reviews:\n")
-        f.write("\t" + reviews_samples[0])
-        f.write("\n\n")
-        f.write("Negative reviews:\n")
-        f.write("\t" + reviews_samples[1])
+    if write_to_file:
+        current_time = time.strftime("%Y%m%d-%H%M%S")
+        with open(f"data_statistics_{current_time}.txt", "w", encoding="utf-8") as f:
+            f.write(
+                f"""Data statistics:
+                Number of reviews: {data.shape[0]}
+                Number of positive reviews: {positive_reviews.shape[0]}
+                Number of negative reviews: {negative_reviews.shape[0]}
+                Positive/Negative ratio: {positive_reviews.shape[0] / negative_reviews.shape[0]}
+                """
+            )
+            f.write("\n\n")
+            f.write("Positive reviews:\n")
+            f.write("\t" + reviews_samples[0])
+            f.write("\n\n")
+            f.write("Negative reviews:\n")
+            f.write("\t" + reviews_samples[1])
 
     # Print out a separator.
     print("-" * 100)
